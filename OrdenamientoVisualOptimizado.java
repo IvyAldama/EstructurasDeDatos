@@ -172,7 +172,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         return libros;
     }
 
-    // Método para generar la lista de usuarios
+    // Este método para genera la lista de usuarios
     private List<User> generarUsuarios(int cantidad, List<Libro> libros) {
         List<User> usuarios = new ArrayList<>();
         String[] nombres = {"Ana", "Luis", "Pedro", "María", "Carlos", "Sofía", "Daniel", "Elena", "Juan", "Lucía",
@@ -200,14 +200,13 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         return usuarios;
     }
 
-    // Método para combinar datos (innecesario en esta versión mejorada)
+    // Método que combina datos (innecesario en esta versión mejorada)
     private List<User> combinarDatos(List<User> usuarios, List<Libro> libros) {
-        // En esta versión mejorada, el 'género' ya es parte del objeto Libro
-        // dentro del objeto Usuario.  Por lo tanto, no es necesario volver a combinar.
+        //  el genero ya es parte del objeto Libro dentro del objeto Usuario.  Por lo tanto, no es necesario volver a combinar.
         return new ArrayList<>(usuarios); // Devuelve una copia para evitar modificaciones accidentales
     }
 
-    // Método auxiliar para convertir una List<User> en un String[][] para mostrar en la JTable
+    // Este metodo convierte una List<User> en un String[][] para mostrar en la JTable
     private String[][] convertUsersToTableData(List<User> users, int start, int end) {
         int displayLength = Math.min(end, users.size()) - start;
         String[][] data = new String[displayLength][6];
@@ -227,14 +226,14 @@ public class OrdenamientoVisualOptimizado extends JFrame {
 
     // Método para iniciar el ordenamiento
     private void ordenar() {
-        isCancelled.set(false); // Reseteamos el indicador de cancelación
+        isCancelled.set(false); // Reset al indicador de cancelación
         detenerBtn.setEnabled(true);
         analisisArea.setText("Procesando ordenamiento...");
         SwingWorker<String, Void> worker = new SwingWorker<>() {
             @Override
             protected String doInBackground() {
                 int criterioIndex = criterioCombo.getSelectedIndex();
-                List<User> copia = new ArrayList<>(datosTabla); // Copiamos la lista para no modificar la original
+                List<User> copia = new ArrayList<>(datosTabla); // Copiar la lista para no modificar la original
 
                 long startTime = System.nanoTime();
                 switch (metodoCombo.getSelectedIndex()) {
@@ -255,7 +254,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
                         break;
                 }
                 long endTime = System.nanoTime();
-                if (isCancelled.get()) return "Ordenamiento detenido por el usuario."; // Verificamos AtomicBoolean
+                if (isCancelled.get()) return "Ordenamiento detenido por el usuario."; 
 
                 long tiempoMs = (endTime - startTime) / 1_000_000;
                 double tiempoS = tiempoMs / 1000.0;
@@ -273,7 +272,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
             protected void done() {
                 try {
                     analisisArea.setText(get());
-                    detenerBtn.setEnabled(false); // Deshabilitamos el botón Detener al finalizar
+                    detenerBtn.setEnabled(false); // Deshabilita el botón Detener al finalizar
                 } catch (Exception e) {
                     analisisArea.setText("Error al ordenar: " + e.getMessage());
                     detenerBtn.setEnabled(false);
@@ -283,7 +282,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         worker.execute();
     }
 
-    // Método para analizar todos los métodos de ordenamiento
+    // Este metodo analiza todos los algoritmos de ordenamiento
     private void analizarTodos() {
         isCancelled.set(false);
         detenerBtn.setEnabled(true);
@@ -296,7 +295,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
                 StringBuilder analisis = new StringBuilder("=== Análisis de Métodos ===\n\n");
 
                 for (int i = 0; i < metodos.length; i++) {
-                    if (isCancelled.get()) return "Análisis detenido por el usuario."; // Verificamos la cancelación
+                    if (isCancelled.get()) return "Análisis detenido por el usuario."; // Verifica la cancelación
                     List<User> copia = new ArrayList<>(datosTabla); // Copiamos la lista para cada método
                     long startTime = System.nanoTime();
                     switch (i) {
@@ -340,7 +339,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     // algoritmo de burbuja
     private void burbuja(List<User> arr, int criterio) {
         int n = arr.size();
-        for (int i = 0; i < n - 1 && !isCancelled.get(); i++) { // Verificamos la cancelación en cada iteración
+        for (int i = 0; i < n - 1 && !isCancelled.get(); i++) { // Verifica la cancelación en cada iteración
             for (int j = 0; j < n - i - 1 && !isCancelled.get(); j++) {
                 if (compare(arr.get(j), arr.get(j + 1), criterio) > 0) {
                     User temp = arr.get(j);
@@ -354,7 +353,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     // algoritmo de selección
     private void seleccion(List<User> arr, int criterio) {
         int n = arr.size();
-        for (int i = 0; i < n - 1 && !isCancelled.get(); i++) { // Verificamos la cancelación en cada iteración
+        for (int i = 0; i < n - 1 && !isCancelled.get(); i++) { // Verifica la cancelación en cada iteración
             int minIdx = i;
             for (int j = i + 1; j < n && !isCancelled.get(); j++) {
                 if (compare(arr.get(j), arr.get(minIdx), criterio) < 0) {
@@ -370,7 +369,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     // algoritmo de inserción
     private void insercion(List<User> arr, int criterio) {
         int n = arr.size();
-        for (int i = 1; i < n && !isCancelled.get(); i++) { // Verificamos la cancelación en cada iteración
+        for (int i = 1; i < n && !isCancelled.get(); i++) { // Verifica la cancelación en cada iteración
             User key = arr.get(i);
             int j = i - 1;
             while (j >= 0 && compare(arr.get(j), key, criterio) > 0 && !isCancelled.get()) {
@@ -407,7 +406,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         return i + 1;
     }
 
-    // Implementación del algoritmo de ordenamiento Shellsort
+    // Algoritmo Shellsort
     private void shellsort(List<User> arr, int criterio) {
         int n = arr.size();
         for (int gap = n / 2; gap > 0 && !isCancelled.get(); gap /= 2) { // Verificamos la cancelación en el bucle externo
@@ -422,7 +421,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         }
     }
 
-    // Método para comparar dos usuarios según el criterio de ordenamiento
+    // Este metodo compara dos usuarios según el criterio de ordenamiento
     private int compare(User a, User b, int criterio) {
         switch (criterio) {
             case 0:
