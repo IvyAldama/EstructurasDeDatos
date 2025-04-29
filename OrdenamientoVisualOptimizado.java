@@ -6,26 +6,26 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 // Clase para representar un libro
-class Book {
-    private String title;//titulo
-    private String genre;//genero
+class Libro {
+    private String titulo;
+    private String genero;
 
-    public Book(String title, String genre) {
-        this.title = title;
-        this.genre = genre;
+    public Libro(String titulo, String genero) {
+        this.titulo = titulo;
+        this.genero = genero;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getGenero() {
+        return genero;
     }
 
     @Override //override toString para mostrar el libro en la tabla
     public String toString() {
-        return title + " (" + genre + ")";
+        return titulo + " (" + genero + ")";
     }
 
      // Sobreescribe equals y hashCode para comparar libros correctamente (si es necesario en colecciones)
@@ -33,13 +33,13 @@ class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return Objects.equals(title, book.title) && Objects.equals(genre, book.genre);
+        Libro Libro = (Libro) o;
+        return Objects.equals(titulo, Libro.titulo) && Objects.equals(genero, Libro.genero);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, genre);
+        return Objects.hash(titulo, genero);
     }
 }
 
@@ -48,10 +48,10 @@ class User {
     private String matricula;
     private String nombre;
     private String apellido;
-    private Book libro;  // Referencia a un objeto Libro
+    private Libro libro;  // Referencia a un objeto Libro
     private String estado;
 
-    public User(String matricula, String nombre, String apellido, Book libro, String estado) {
+    public User(String matricula, String nombre, String apellido, Libro libro, String estado) {
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -71,7 +71,7 @@ class User {
         return apellido;
     }
 
-    public Book getLibro() {
+    public Libro getLibro() {
         return libro;
     }
 
@@ -87,7 +87,7 @@ class User {
 
 public class OrdenamientoVisualOptimizado extends JFrame {
 
-    private List<Book> libros = generarLibros(2000); // Usamos List en lugar de String[][]
+    private List<Libro> libros = generarLibros(2000); // Usamos List en lugar de String[][]
     private List<User> usuarios = generarUsuarios(50000, libros); // Usamos List
     private List<User> datosTabla = combinarDatos(usuarios, libros); // Usamos List
 
@@ -100,7 +100,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     private DefaultTableModel tableModel;
 
     public OrdenamientoVisualOptimizado() {
-        // Inicialización de la interfaz gráfica (similar al original, pero adaptado para List y Book/User)
+        // Inicialización de la interfaz gráfica (similar al original, pero adaptado para List y Libro/User)
         setTitle("Sistema de Ordenamiento - Biblioteca");
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,9 +156,9 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     }
 
     // Método para generar la lista de libros
-    private List<Book> generarLibros(int cantidad) {
-        List<Book> libros = new ArrayList<>();
-        Set<String> genres = new HashSet<>(Arrays.asList("Drama", "Thriller", "Comedia", "Romántica", "Ficción", "Documental", "Fantasía", "Terror")); // Usamos Set para evitar duplicados
+    private List<Libro> generarLibros(int cantidad) {
+        List<Libro> libros = new ArrayList<>();
+        Set<String> generos = new HashSet<>(Arrays.asList("Drama", "Thriller", "Comedia", "Romántica", "Ficción", "Documental", "Fantasía", "Terror")); // Usamos Set para evitar duplicados
         String[] titulosBase = {"El", "La", "Un", "Mi", "Nuestro", "Sombras de", "Luz en", "Caminos de"};
         String[] titulosFin = {"Secreto", "Destino", "Amor", "Oscuridad", "Tiempo", "Vida", "Misterio", "Alma"};
         Random rand = new Random();
@@ -166,14 +166,14 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         for (int i = 0; i < cantidad; i++) {
             String titulo = titulosBase[rand.nextInt(titulosBase.length)] + " " +
                     titulosFin[rand.nextInt(titulosFin.length)];
-            String genero = genres.toArray(new String[0])[rand.nextInt(genres.size())]; // Obtenemos un género aleatorio del Set
-            libros.add(new Book(titulo, genero));
+            String genero = generos.toArray(new String[0])[rand.nextInt(generos.size())]; // Obtenemos un género aleatorio del Set
+            libros.add(new Libro(titulo, genero));
         }
         return libros;
     }
 
     // Método para generar la lista de usuarios
-    private List<User> generarUsuarios(int cantidad, List<Book> libros) {
+    private List<User> generarUsuarios(int cantidad, List<Libro> libros) {
         List<User> usuarios = new ArrayList<>();
         String[] nombres = {"Ana", "Luis", "Pedro", "María", "Carlos", "Sofía", "Daniel", "Elena", "Juan", "Lucía",
                 "Alberto", "Fernanda", "Oscar", "Raúl", "Patricia", "Javier", "Mónica", "Rubén", "Gloria", "Héctor"};
@@ -185,7 +185,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
             String matricula = String.format("U%05d", i + 1);
             String nombre = nombres[rand.nextInt(nombres.length)];
             String apellido = apellidos[rand.nextInt(apellidos.length)];
-            Book libro = libros.get(rand.nextInt(libros.size()));
+            Libro libro = libros.get(rand.nextInt(libros.size()));
             String estado = rand.nextBoolean() ? "Apartado" : "Devuelto";
 
             String userCombination = nombre + apellido;
@@ -201,7 +201,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     }
 
     // Método para combinar datos (innecesario en esta versión mejorada)
-    private List<User> combinarDatos(List<User> usuarios, List<Book> libros) {
+    private List<User> combinarDatos(List<User> usuarios, List<Libro> libros) {
         // En esta versión mejorada, el 'género' ya es parte del objeto Libro
         // dentro del objeto Usuario.  Por lo tanto, no es necesario volver a combinar.
         return new ArrayList<>(usuarios); // Devuelve una copia para evitar modificaciones accidentales
@@ -217,8 +217,8 @@ public class OrdenamientoVisualOptimizado extends JFrame {
                     user.getMatricula(),
                     user.getNombre(),
                     user.getApellido(),
-                    (user.getLibro() != null) ? user.getLibro().getTitle() : "",
-                    (user.getLibro() != null) ? user.getLibro().getGenre() : "",
+                    (user.getLibro() != null) ? user.getLibro().getTitulo() : "",
+                    (user.getLibro() != null) ? user.getLibro().getGenero() : "",
                     user.getEstado()
             };
         }
@@ -337,7 +337,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         worker.execute();
     }
 
-    // Implementación del algoritmo de ordenamiento de burbuja
+    // algoritmo de burbuja
     private void burbuja(List<User> arr, int criterio) {
         int n = arr.size();
         for (int i = 0; i < n - 1 && !isCancelled.get(); i++) { // Verificamos la cancelación en cada iteración
@@ -351,7 +351,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         }
     }
 
-    // Implementación del algoritmo de ordenamiento de selección
+    // algoritmo de selección
     private void seleccion(List<User> arr, int criterio) {
         int n = arr.size();
         for (int i = 0; i < n - 1 && !isCancelled.get(); i++) { // Verificamos la cancelación en cada iteración
@@ -367,7 +367,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         }
     }
 
-    // Implementación del algoritmo de ordenamiento por inserción
+    // algoritmo de inserción
     private void insercion(List<User> arr, int criterio) {
         int n = arr.size();
         for (int i = 1; i < n && !isCancelled.get(); i++) { // Verificamos la cancelación en cada iteración
@@ -381,7 +381,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         }
     }
 
-    // Implementación del algoritmo de ordenamiento Quicksort
+    // algoritmo Quicksort
     private void quicksort(List<User> arr, int low, int high, int criterio) {
         if (low < high && !isCancelled.get()) { // Verificamos la cancelación antes de la recursión
             int pi = partition(arr, low, high, criterio);
@@ -426,9 +426,9 @@ public class OrdenamientoVisualOptimizado extends JFrame {
     private int compare(User a, User b, int criterio) {
         switch (criterio) {
             case 0:
-                return a.getLibro().getTitle().compareTo(b.getLibro().getTitle()); // Título A-Z
+                return a.getLibro().getTitulo().compareTo(b.getLibro().getTitulo()); // Título A-Z
             case 1:
-                return b.getLibro().getTitle().compareTo(a.getLibro().getTitle()); // Título Z-A
+                return b.getLibro().getTitulo().compareTo(a.getLibro().getTitulo()); // Título Z-A
             case 2:
                 return a.getNombre().compareTo(b.getNombre()); // Nombre A-Z
             case 3:
@@ -444,7 +444,7 @@ public class OrdenamientoVisualOptimizado extends JFrame {
             case 8:
                 return a.getMatricula().compareTo(b.getMatricula()); // Matrícula Menor a Mayor
             case 9:
-                return a.getLibro().getGenre().compareTo(b.getLibro().getGenre()); // Género A-Z
+                return a.getLibro().getGenero().compareTo(b.getLibro().getGenero()); // Género A-Z
             default:
                 return 0;
         }
@@ -457,3 +457,5 @@ public class OrdenamientoVisualOptimizado extends JFrame {
         });
     }
 }
+
+
