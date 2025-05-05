@@ -24,7 +24,7 @@ class Tarea {
     }
 }
 
-public class GestorTareasConsola {
+public class GestorTareasConsola {// Clase principal del programa
 
     // Método para simular la limpieza de consola en la terminal
     public static void limpiarConsola() {
@@ -33,36 +33,38 @@ public class GestorTareasConsola {
 
     // Método para mostrar las tareas según el modo seleccionado (pila o cola)
     public static void mostrarTareas(Stack<Tarea> pila, Queue<Tarea> cola, int modo) {
-        if (modo == 1) {
-            System.out.println("Tareas en la PILA (última arriba):");
-            if (pila.isEmpty()) {
+        if (modo == 1) { // si el modo es pila...
+            System.out.println("Tareas en la PILA (última arriba):"); //muestra las tareas en la pila
+            if (pila.isEmpty()) { //verifica si la pila está vacía
                 System.out.println("Sin tareas.");
             } else {
-                for (int i = pila.size() - 1; i >= 0; i--) {
-                    System.out.println(pila.get(i));
+                for (int i = pila.size() - 1; i >= 0; i--) {//recorre la pila desde la parte superior hasta la inferior
+                    //muestra las tareas en la pila desde la parte superior hasta la inferior
+                    System.out.println(pila.get(i));//imprime cada tarea en la pila
                 }
             }
-        } else {
-            System.out.println("Tareas en la COLA (primera adelante):");
+        } else { //si el modo es cola...
+            System.out.println("Tareas en la COLA (primera adelante):");// muestra las tareas en la cola
             if (cola.isEmpty()) { //verifica si la cola está vacía
-                System.out.println("Sin tareas.");
-            } else {
-                for (Tarea t : cola) {
-                    System.out.println(t);
+                System.out.println("Sin tareas.");//si la cola está vacía muestra "Sin tareas"
+            } else {//si la cola no está vacía...
+                //muestra las tareas en la cola desde la parte frontal hasta la parte trasera
+                for (Tarea t : cola) {//recorre la cola desde la parte frontal hasta la parte trasera
+                    System.out.println(t);//imprime cada tarea en la cola
                 }
             }
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) {// Método principal del programa
+        Scanner scanner = new Scanner(System.in);// Crea un objeto Scanner para leer la entrada del usuario
         Stack<Tarea> pila = new Stack<>(); // Estructura tipo pila (LIFO)
         Queue<Tarea> cola = new LinkedList<>(); // Estructura tipo cola (FIFO)
 
-        boolean salirTotal = false;
+        boolean salirTotal = false;// Bandera para salir del programa
 
         // Bucle principal del programa
-        while (!salirTotal) {
+        while (!salirTotal) { //se  ejecuta mientras no se haya solicitado salir del programa
             System.out.println("Bienvenido al Gestor de Tareas");
             System.out.println("Selecciona el modo de trabajo: ");
             System.out.println("1. Pila (LIFO)");
@@ -71,17 +73,17 @@ public class GestorTareasConsola {
             int modo = scanner.nextInt();
             scanner.nextLine(); // Consumir salto de línea
 
-            if (modo == 3) {
-                salirTotal = true;
+            if (modo == 3) { //si el usuario selecciona salir...
+                salirTotal = true;//se establece la bandera para salir del programa
                 System.out.println("Programa finalizado.");
-                break;
+                break;//salida del bucle
             }
 
             boolean salir = false;
             // Submenú según el modo de trabajo elegido
             while (!salir) {
-                limpiarConsola();
-                mostrarTareas(pila, cola, modo);
+                limpiarConsola();//llama a la función para limpiar la consola
+                mostrarTareas(pila, cola, modo);//llama a la función para mostrar las tareas según el modo seleccionado
 
                 System.out.println("\nMenú:");
                 System.out.println("1. Agregar tarea");
@@ -103,13 +105,13 @@ public class GestorTareasConsola {
                         System.out.print("Prioridad (1-5): ");
                         int prioridad = scanner.nextInt();
                         scanner.nextLine();
-                        Tarea nueva = new Tarea(id, descripcion, prioridad);
+                        Tarea nueva = new Tarea(id, descripcion, prioridad);// crea una nueva tarea con los datos capturados
 
                         // Agrega la tarea a la estructura correspondiente
-                        if (modo == 1) {
+                        if (modo == 1) {// si el modo es pila...
                             pila.push(nueva); // Agrega la tarea a la pila
                             System.out.println("Tarea agregada a la PILA.");
-                        } else {
+                        } else {// si el modo es cola...
                             cola.offer(nueva);// Agrega la tarea a la cola
                             System.out.println("Tarea agregada a la COLA.");
                         }
